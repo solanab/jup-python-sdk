@@ -20,7 +20,7 @@ jobs:
         run: poetry install
       - name: Build package
         run: poetry build
-#      - name: Publish to PyPI
-#        env:
-#          PYPI_API_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
-#        run: poetry publish --username __token__ --password $PYPI_API_TOKEN
+      - name: Publish to PyPI
+        env:
+          PYPI_API_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
+        run: poetry publish --username __token__ --password $PYPI_API_TOKEN
