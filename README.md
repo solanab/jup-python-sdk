@@ -1,5 +1,12 @@
-# Example Package
+# **Jup-Ag-SDK**  
 
-This is a simple example package. You can use
-[GitHub-flavored Markdown](https://guides.github.com/features/mastering-markdown/)
-to write your content.
+A Python SDK for interacting with Jupiter Exchange APIs.  
+
+## **Installation**  
+```sh
+pip install jup-ag-sdk
+```
+
+## **Disclaimer**  
+🚨 **This project is a work in progress and should not be used in production systems.**  
+Expect breaking changes as the SDK evolves.
