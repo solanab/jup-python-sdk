@@ -54,10 +54,7 @@ To create and publish a new release of the package to PyPI:
       - Publish the package to PyPI.
 
 5. **Confirm the Release:**
-   - Check [PyPI](https://pypi.org/) to ensure the new version has been published successfully.
-
-6. **Important Note:**
-   - Ensure your PyPI API token is added as a secret (`PYPI_API_TOKEN`) in the repository's GitHub settings under **Secrets and variables** > **Actions**.
+   - Check [PyPI](https://pypi.org/project/jup-ag-sdk/) to ensure the new version has been published successfully.
 
 ## **Disclaimer**
 🚨 **This project is a work in progress and should not be used in production systems.**  
