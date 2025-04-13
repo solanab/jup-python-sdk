@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Any, Dict, Optional
 
 from pydantic import BaseModel
 from pydantic.alias_generators import to_camel
@@ -10,9 +10,11 @@ class UltraOrderRequest(BaseModel):
     amount: int
     taker: Optional[str] = None
 
-    def to_dict(self):
+    def to_dict(self) -> Dict[str, Any]:
         params = self.model_dump(exclude_none=True)
 
-        camel_case_params = {to_camel(key): value for key, value in params.items()}
+        camel_case_params = {
+            to_camel(key): value for key, value in params.items()
+        }
 
         return camel_case_params

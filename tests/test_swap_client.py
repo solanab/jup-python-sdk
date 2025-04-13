@@ -5,7 +5,7 @@ from jup_ag_sdk.models.swap_api.quote_request_model import QuoteRequest
 from jup_ag_sdk.models.swap_api.swap_request_model import SwapRequest
 
 
-def test_get_quote_and_swap():
+def test_get_quote_and_swap() -> None:
     """
     Test the SwapApiClient's ability to fetch a quote and perform a swap.
     """
@@ -29,8 +29,13 @@ def test_get_quote_and_swap():
 
         rpc_response = client.swap_and_execute(swap_request)
         signature = str(rpc_response.value)
-        assert signature is not None, "Transaction signature is missing or invalid."
-        print(f"Transaction sent successfully! View transaction on Solscan: https://solscan.io/tx/{signature}")
+        assert (
+            signature is not None
+        ), "Transaction signature is missing or invalid."
+        print(
+            f"Transaction sent successfully!"
+            f"View transaction on Solscan: https://solscan.io/tx/{signature}"
+        )
 
     except Exception as e:
         print("Error occurred while processing the swap:", str(e))

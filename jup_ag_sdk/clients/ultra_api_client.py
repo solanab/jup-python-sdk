@@ -1,15 +1,25 @@
+from typing import Any, Dict, Optional
+
 from jup_ag_sdk.clients.jupiter_client import JupiterClient
-from jup_ag_sdk.models.ultra_api.ultra_execute_request_model import UltraExecuteRequest
-from jup_ag_sdk.models.ultra_api.ultra_order_request_model import UltraOrderRequest
+from jup_ag_sdk.models.ultra_api.ultra_execute_request_model import (
+    UltraExecuteRequest,
+)
+from jup_ag_sdk.models.ultra_api.ultra_order_request_model import (
+    UltraOrderRequest,
+)
 
 
 class UltraApiClient(JupiterClient):
     """
-    A client for interacting with the Jupiter Swap API. Inherits from JupiterClient.
+    A client for interacting with the Jupiter Swap API.
+    Inherits from JupiterClient.
     """
 
     def __init__(
-        self, api_key=None, private_key_env_var="PRIVATE_KEY", timeout=10
+        self,
+        api_key: Optional[str] = None,
+        private_key_env_var: str = "PRIVATE_KEY",
+        timeout: int = 10,
     ):
         super().__init__(
             api_key=api_key,
@@ -18,7 +28,7 @@ class UltraApiClient(JupiterClient):
             timeout=timeout,
         )
 
-    def order(self, request: UltraOrderRequest) -> dict:
+    def order(self, request: UltraOrderRequest) -> Dict[str, Any]:
         """
         Get an order from the Jupiter Ultra API.
 
@@ -31,12 +41,14 @@ class UltraApiClient(JupiterClient):
         params = request.to_dict()
 
         url = f"{self.base_url}/ultra/v1/order"
-        response = self.client.get(url, params=params, headers=self._get_headers())
+        response = self.client.get(
+            url, params=params, headers=self._get_headers()
+        )
         response.raise_for_status()
 
-        return response.json()
+        return response.json()  # type: ignore
 
-    def execute(self, request: UltraExecuteRequest) -> dict:
+    def execute(self, request: UltraExecuteRequest) -> Dict[str, Any]:
         """
         Execute the order with the Jupiter Ultra API.
 
@@ -49,12 +61,14 @@ class UltraApiClient(JupiterClient):
         payload = request.to_dict()
 
         url = f"{self.base_url}/ultra/v1/execute"
-        response = self.client.post(url, json=payload, headers=self._get_headers())
+        response = self.client.post(
+            url, json=payload, headers=self._get_headers()
+        )
         response.raise_for_status()
 
-        return response.json()
+        return response.json()  # type: ignore
 
-    def order_and_execute(self, request: UltraOrderRequest) -> dict:
+    def order_and_execute(self, request: UltraOrderRequest) -> Dict[str, Any]:
         """
         Get an order from the Jupiter Ultra API and execute it immediately.
 
@@ -73,7 +87,9 @@ class UltraApiClient(JupiterClient):
 
         execute_request = UltraExecuteRequest(
             request_id=request_id,
-            signed_transaction=self._serialize_versioned_transaction(signed_transaction),
+            signed_transaction=self._serialize_versioned_transaction(
+                signed_transaction
+            ),
         )
 
         return self.execute(execute_request)
