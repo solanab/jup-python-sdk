@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "jup-ag-sdk"
-version = "0.0.3"
+version = "0.1.0"
 description = "Python SDK for Jupiter Exchange APIs."
 authors = ["Fiji <charismoutafidis@gmail.com>"]
 license = "MIT"
