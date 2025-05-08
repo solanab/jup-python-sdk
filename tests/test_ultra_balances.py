@@ -23,9 +23,9 @@ def test_ultra_get_balances() -> None:
         for token, details in balances_response.items():
             print(f"Token: {token}")
             print(f"  - Amount: {details['amount']}")
-            print(f"  - UI Amount: {details['uiAmount']}")
-            print(f"  - Slot: {details['slot']}")
-            print(f"  - Is Frozen: {details['isFrozen']}")
+            print(f"    UI Amount: {details['uiAmount']}")
+            print(f"    Slot: {details['slot']}")
+            print(f"    Is Frozen: {details['isFrozen']}")
 
     except Exception as e:
         print("Error occurred while fetching balances:", str(e))

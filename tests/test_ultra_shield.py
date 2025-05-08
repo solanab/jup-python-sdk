@@ -27,7 +27,7 @@ def test_ultra_shield() -> None:
                 print(f"Mint: {mint}")
                 for warning in warnings:
                     print(f"  - Type: {warning.get('type')}")
-                    print(f"  - Message: {warning.get('message')}")
+                    print(f"    Message: {warning.get('message')}")
         else:
             print("No warnings returned for provided mints")
 
