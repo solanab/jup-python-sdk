@@ -9,6 +9,8 @@ class UltraOrderRequest(BaseModel):
     output_mint: str
     amount: int
     taker: Optional[str] = None
+    referral_account: Optional[str] = None
+    referral_fee: Optional[int] = None
 
     def to_dict(self) -> Dict[str, Any]:
         params = self.model_dump(exclude_none=True)

@@ -11,7 +11,7 @@ from jup_ag_sdk.models.ultra_api.ultra_order_request_model import (
 
 class UltraApiClient(JupiterClient):
     """
-    A client for interacting with the Jupiter Swap API.
+    A client for interacting with the Jupiter Ultra API.
     Inherits from JupiterClient.
     """
 
@@ -23,7 +23,6 @@ class UltraApiClient(JupiterClient):
     ):
         super().__init__(
             api_key=api_key,
-            rpc_url=None,
             private_key_env_var=private_key_env_var,
             timeout=timeout,
         )
@@ -93,3 +92,41 @@ class UltraApiClient(JupiterClient):
         )
 
         return self.execute(execute_request)
+
+    def balances(self, address: str) -> Dict[str, Any]:
+        """
+        Get token balances of an account from the Jupiter Ultra API.
+
+        Args:
+            address (str): The public key of the account to get balances for.
+
+        Returns:
+            dict: The dict api response.
+        """
+        url = f"{self.base_url}/ultra/v1/balances/{address}"
+        response = self.client.get(url, headers=self._get_headers())
+        response.raise_for_status()
+
+        return response.json()  # type: ignore
+
+    def shield(self, mints: list[str]) -> Dict[str, Any]:
+        """
+        Get token information and warnings for specific mints
+        from the Jupiter Ultra API.
+
+        Args:
+            mints (list[str]): List of token mint addresses
+            to get information for.
+
+        Returns:
+            dict: The dict api response with warnings information.
+        """
+        params = {"mints": ",".join(mints)}
+
+        url = f"{self.base_url}/ultra/v1/shield"
+        response = self.client.get(
+            url, params=params, headers=self._get_headers()
+        )
+        response.raise_for_status()
+
+        return response.json()  # type: ignore

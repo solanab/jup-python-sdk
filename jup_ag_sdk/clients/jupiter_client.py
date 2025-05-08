@@ -4,8 +4,7 @@ from typing import Dict, Optional
 
 import base58
 import httpx
-from solana.rpc.api import Client
-from solders.solders import Keypair, SendTransactionResp, VersionedTransaction
+from solders.solders import Keypair, VersionedTransaction
 
 
 class JupiterClient:
@@ -17,12 +16,10 @@ class JupiterClient:
     def __init__(
         self,
         api_key: Optional[str],
-        rpc_url: Optional[str],
         private_key_env_var: str,
         timeout: int,
     ):
         self.api_key = api_key
-        self.rpc = Client(rpc_url) if rpc_url else None
         self.base_url = (
             "https://api.jup.ag" if api_key else "https://lite-api.jup.ag"
         )
@@ -55,13 +52,6 @@ class JupiterClient:
             base58.b58decode(os.getenv(self.private_key_env_var, ""))
         )
         return str(wallet.pubkey())
-
-    def _send_transaction(
-        self, transaction: VersionedTransaction
-    ) -> SendTransactionResp:
-        if not self.rpc:
-            raise ValueError("Client was initialized without RPC URL.")
-        return self.rpc.send_transaction(transaction)
 
     def _sign_base64_transaction(
         self, transaction_base64: str
