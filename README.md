@@ -1,6 +1,11 @@
 # **Jup Python SDK**
 
-A Python SDK for interacting with Jupiter Exchange APIs.
+A Python SDK designed for seamless interaction with the Jupiter Ultra API, the simplest and safest way to trade on Solana.<br>
+With Ultra API, you don't need to manage or connect to any RPC endpoints, or deal with complex configurations.<br>
+Everything from getting quotes to transaction execution happens directly through the API.<br>
+
+Or as we like to say around here:<br>
+**"RPCs are for NPCs."**
 
 ## **Installation**
 
