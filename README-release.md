@@ -27,4 +27,4 @@ To create and publish a new release of the package to PyPI:
       - Publish the package to PyPI.
 
 5. **Confirm the Release:**
-   - Check [PyPI](https://pypi.org/project/jup-ag-sdk/) to ensure the new version has been published successfully.
+   - Check [PyPI](https://pypi.org/project/jup-python-sdk/) to ensure the new version has been published successfully.

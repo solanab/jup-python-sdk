@@ -7,19 +7,16 @@ A Python SDK for interacting with Jupiter Exchange APIs.
 To install the SDK in your project, run:
 ```
 sh
-pip install jup-ag-sdk
+pip install jup-python-sdk
 ```
 ## **Quick Start**
 
-Here's a basic example to help you get started with the Jup Python SDK:
+Below is a simple example that shows how to fetch and execute an Ultra order with the Jup Python SDK:
 ```
 python
 from dotenv import load_dotenv
-
 from jup_python_sdk.clients.ultra_api_client import UltraApiClient
-from jup_python_sdk.models.ultra_api.ultra_order_request_model import (
-    UltraOrderRequest,
-)
+from jup_python_sdk.models.ultra_api.ultra_order_request_model import UltraOrderRequest
 
 load_dotenv()
 client = UltraApiClient()
@@ -34,16 +31,24 @@ order_request = UltraOrderRequest(
 try:
    client_response = client.order_and_execute(order_request)
    signature = str(client_response["signature"])
-   
+
    print("Order and Execute API Response:")
+   print(f"  - Status: {client_response.get('status')}")
+   if client_response.get("status") == "Failed":
+      print(f"  - Code: {client_response.get('code')}")
+      print(f"  - Error: {client_response.get('error')}")
+
    print(f"  - Transaction Signature: {signature}")
    print(f"  - View on Solscan: https://solscan.io/tx/{signature}")
 
 except Exception as e:
-   print("Error occurred while processing the order:", str(e))
+   print("Error occurred while processing the swap:", str(e))
 finally:
    client.close()
 ```
+
+You can find additional code examples and advanced usage scenarios in the [examples](./examples) folder.
+These examples cover every Ultra API endpoint and should help you get up and running quickly.
 
 ## **Setup Instructions**
 
@@ -56,11 +61,27 @@ Before using the SDK, please ensure you have completed the following steps:
    export PRIVATE_KEY=your_private_key_here
    ```
 
-2. **Python Version**:  
-   Make sure you are using Python 3.9 or later.
+2. **Configuration**:  
+   Depending on your credentials and setup, you have a couple of options for initializing the `UltraApiClient`:
 
-3**Configuration**:  
-   TBD
+   - **Custom Private Key Environment Variable:**  
+     By default, the SDK looks for your private key in an environment variable named `PRIVATE_KEY`.  
+     If you use a different environment variable name, you can specify it explicitly:
+     ```python
+     from jup_python_sdk.clients.ultra_api_client import UltraApiClient
+
+     client = UltraApiClient(private_key_env_var="YOUR_CUSTOM_ENV_VAR")
+     ```
+     This tells the SDK to read your private key from the environment variable you want.
+
+   - **Using an API Key for Enhanced Access:**  
+     If you have an API key from [the Jupiter Portal](https://portal.jup.ag/onboard), you can pass it directly when creating the client:
+     ```python
+     from jup_python_sdk.clients.ultra_api_client import UltraApiClient
+
+     client = UltraApiClient(api_key="YOUR_API_KEY")
+     ```
+     When you supply an API key, the library will call the `https://api.jup.ag/` API rather than the default `https://lite-api.jup.ag/` API.
 
 ## **Disclaimer**
 
