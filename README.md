@@ -7,6 +7,8 @@ Everything from getting quotes to transaction execution happens directly through
 Or as we like to say around here:<br>
 **"RPCs are for NPCs."**
 
+For a deeper understanding of the Ultra API, including its features and benefits, check out the [Ultra API Docs](https://dev.jup.ag/docs/ultra-api/).
+
 ## **Installation**
 
 To install the SDK in your project, run:
