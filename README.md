@@ -5,15 +5,13 @@ A Python SDK for interacting with Jupiter Exchange APIs.
 ## **Installation**
 
 To install the SDK in your project, run:
-```
-sh
+```sh
 pip install jup-python-sdk
 ```
 ## **Quick Start**
 
 Below is a simple example that shows how to fetch and execute an Ultra order with the Jup Python SDK:
-```
-python
+```python
 from dotenv import load_dotenv
 from jup_python_sdk.clients.ultra_api_client import UltraApiClient
 from jup_python_sdk.models.ultra_api.ultra_order_request_model import UltraOrderRequest
@@ -61,7 +59,7 @@ Before using the SDK, please ensure you have completed the following steps:
    export PRIVATE_KEY=your_private_key_here
    ```
 
-2. **Configuration**:  
+2. **Optional Configuration**:  
    Depending on your credentials and setup, you have a couple of options for initializing the `UltraApiClient`:
 
    - **Custom Private Key Environment Variable:**  
