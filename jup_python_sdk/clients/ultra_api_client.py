@@ -1,10 +1,10 @@
 from typing import Any, Dict, Optional
 
-from jup_ag_sdk.clients.jupiter_client import JupiterClient
-from jup_ag_sdk.models.ultra_api.ultra_execute_request_model import (
+from jup_python_sdk.clients.jupiter_client import JupiterClient
+from jup_python_sdk.models.ultra_api.ultra_execute_request_model import (
     UltraExecuteRequest,
 )
-from jup_ag_sdk.models.ultra_api.ultra_order_request_model import (
+from jup_python_sdk.models.ultra_api.ultra_order_request_model import (
     UltraOrderRequest,
 )
 

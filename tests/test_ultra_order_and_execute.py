@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 
-from jup_ag_sdk.clients.ultra_api_client import UltraApiClient
-from jup_ag_sdk.models.ultra_api.ultra_order_request_model import (
+from jup_python_sdk.clients.ultra_api_client import UltraApiClient
+from jup_python_sdk.models.ultra_api.ultra_order_request_model import (
     UltraOrderRequest,
 )
 

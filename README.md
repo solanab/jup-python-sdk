@@ -1,61 +1,69 @@
-# **Jup-Ag-SDK**
+# **Jup Python SDK**
 
 A Python SDK for interacting with Jupiter Exchange APIs.
 
 ## **Installation**
-To install the SDK globally from PyPI, run:
-```sh
+
+To install the SDK in your project, run:
+```
+sh
 pip install jup-ag-sdk
 ```
+## **Quick Start**
 
-## **Local Development**
-If you want to make changes to the SDK and test it locally:
+Here's a basic example to help you get started with the Jup Python SDK:
+```
+python
+from dotenv import load_dotenv
 
-1. In this project's directory, install the package in editable mode by running:
+from jup_python_sdk.clients.ultra_api_client import UltraApiClient
+from jup_python_sdk.models.ultra_api.ultra_order_request_model import (
+    UltraOrderRequest,
+)
+
+load_dotenv()
+client = UltraApiClient()
+
+order_request = UltraOrderRequest(
+   input_mint="So11111111111111111111111111111111111111112",  # WSOL
+   output_mint="EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",  # USDC
+   amount=10000000,  # 0.01 WSOL
+   taker=client._get_public_key(),
+)
+
+try:
+   client_response = client.order_and_execute(order_request)
+   signature = str(client_response["signature"])
+   
+   print("Order and Execute API Response:")
+   print(f"  - Transaction Signature: {signature}")
+   print(f"  - View on Solscan: https://solscan.io/tx/{signature}")
+
+except Exception as e:
+   print("Error occurred while processing the order:", str(e))
+finally:
+   client.close()
+```
+
+## **Setup Instructions**
+
+Before using the SDK, please ensure you have completed the following steps:
+
+1. **Environment Variables**:  
+   Set up your required environment variables.  
+   Example:
    ```sh
-   pip install -e .
+   export PRIVATE_KEY=your_private_key_here
    ```
 
-2. To use this library in another project while making changes to it, install the package from its local path in that project:
-   ```sh
-   pip install -e /path/to/jup-ag-sdk
-   ```
+2. **Python Version**:  
+   Make sure you are using Python 3.9 or later.
 
-   Replace `/path/to/jup-ag-sdk` with the absolute or relative path to this project directory.
-
-By installing in editable mode, any changes you make to the SDK will immediately reflect in your tests without needing to reinstall the package.
-
-## **Making a New Release**
-To create and publish a new release of the package to PyPI:
-
-1. **Update the Version:**
-   - Update the version in your `pyproject.toml` file following [semantic versioning](https://semver.org/), e.g., `0.0.1` → `0.1.0` for a minor update.
-
-2. **Commit the Changes:**
-   - Commit and push the version update to the main branch:
-     ```sh
-     git add pyproject.toml
-     git commit -m "Bump version to vX.Y.Z"
-     git push origin main
-     ```
-
-3. **Create a Tag:**
-   - Tag the commit with the new version:
-     ```sh
-     git tag vX.Y.Z
-     git push origin vX.Y.Z
-     ```
-
-   Replace `vX.Y.Z` with the actual version number.
-
-4. **GitHub Actions Workflow:**
-   - When the tag is pushed, the `release.yml` GitHub Actions workflow will automatically:
-      - Build the package using Poetry.
-      - Publish the package to PyPI.
-
-5. **Confirm the Release:**
-   - Check [PyPI](https://pypi.org/project/jup-ag-sdk/) to ensure the new version has been published successfully.
+3**Configuration**:  
+   TBD
 
 ## **Disclaimer**
-🚨 **This project is a work in progress and should not be used in production systems.**  
-Expect breaking changes as the SDK evolves.
+
+🚨 **This project is actively worked on.**  
+While we don't expect breaking changes as the SDK evolves, we recommend you stay updated with the latest releases.  
+Any important updates will be announced in the [Discord server](https://discord.gg/jup).

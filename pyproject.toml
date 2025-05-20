@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "jup-ag-sdk"
+name = "jup-python-sdk"
 version = "1.0.0"
 description = "Python SDK for Jupiter Exchange APIs."
 authors = ["Fiji <charismoutafidis@gmail.com>"]
@@ -8,7 +8,7 @@ readme = "README.md"
 homepage = "https://github.com/cmoutafidis/jup-ag-sdk"
 repository = "https://github.com/cmoutafidis/jup-ag-sdk"
 keywords = ["solana", "jupiter", "sdk"]
-packages = [{include = "jup_ag_sdk"}]
+packages = [{include = "jup_python_sdk"}]
 classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",

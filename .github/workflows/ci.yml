@@ -33,4 +33,4 @@ jobs:
       - name: Run Tests
         env:
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-        run: poetry run pytest --cov=jup_ag_sdk
+        run: poetry run pytest --cov=jup_python_sdk
