@@ -61,10 +61,16 @@ Before using the SDK, please ensure you have completed the following steps:
 
 1. **Environment Variables**:  
    Set up your required environment variables.  
-   Example:
+   Example (base58 string or uint8 array supported):
    ```sh
-   export PRIVATE_KEY=your_private_key_here
+   # Base58 format
+   export PRIVATE_KEY=your_base58_private_key_here
+
+   # OR as a uint8 array (advanced)
+   export PRIVATE_KEY=[10,229,131,132,213,96,74,22,...]
    ```
+   
+> **Note**: `PRIVATE_KEY` can be either a base58-encoded string (default Solana format), or a uint8 array (e.g. `[181,99,240,...]`). The SDK will automatically detect and parse the format.
 
 2. **Optional Configuration**:  
    Depending on your credentials and setup, you have a couple of options for initializing the `UltraApiClient`:

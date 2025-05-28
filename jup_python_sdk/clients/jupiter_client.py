@@ -1,4 +1,5 @@
 import base64
+import json
 import os
 from typing import Dict, Optional
 
@@ -47,10 +48,31 @@ class JupiterClient:
             headers["x-api-key"] = self.api_key
         return headers
 
+    def _load_private_key_bytes(self) -> bytes:
+        """Loads the private key from the environment
+        variable as base58 or uint8 array."""
+        pk_raw = os.getenv(self.private_key_env_var, "")
+        pk_raw = pk_raw.strip()
+        if pk_raw.startswith("[") and pk_raw.endswith("]"):
+            try:
+                arr = json.loads(pk_raw)
+                if isinstance(arr, list) and all(
+                    isinstance(x, int) and 0 <= x <= 255 for x in arr
+                ):
+                    return bytes(arr)
+                else:
+                    raise ValueError
+            except Exception as e:
+                raise ValueError(
+                    f"Invalid uint8-array private key format: {e}"
+                )
+        try:
+            return base58.b58decode(pk_raw)
+        except Exception as e:
+            raise ValueError(f"Invalid base58 private key format: {e}")
+
     def _get_public_key(self) -> str:
-        wallet = Keypair.from_bytes(
-            base58.b58decode(os.getenv(self.private_key_env_var, ""))
-        )
+        wallet = Keypair.from_bytes(self._load_private_key_bytes())
         return str(wallet.pubkey())
 
     def _sign_base64_transaction(
@@ -65,9 +87,7 @@ class JupiterClient:
     def _sign_versioned_transaction(
         self, versioned_transaction: VersionedTransaction
     ) -> VersionedTransaction:
-        wallet = Keypair.from_bytes(
-            base58.b58decode(os.getenv(self.private_key_env_var, ""))
-        )
+        wallet = Keypair.from_bytes(self._load_private_key_bytes())
         account_keys = versioned_transaction.message.account_keys
         wallet_index = account_keys.index(wallet.pubkey())
 
