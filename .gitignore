@@ -66,12 +66,16 @@ docs/_build/
 .env.*
 
 # UV specific
-# uv.lock  # Keep lock file for reproducible builds
 .python-version
-
-# Temporary test files
-test_*.py
-generate_*.py
 
 # Flake8 config
 .flake8
+
+# ruff
+.ruff_cache
+
+# IDE
+.ropeproject
+
+# ai
+.claude
