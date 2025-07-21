@@ -1,6 +1,6 @@
 [project]
-name = "jup-python-sdk-solanab"
-version = "2.0.0"
+name = "jup-python-sdk"
+version = "2.0.1.dev0"
 description = "High-performance sync/async Python SDK for Jupiter Exchange APIs, powered by curl_cffi."
 authors = [
     { name = "Fiji", email = "charismoutafidis@gmail.com" },
@@ -45,6 +45,7 @@ dev = [
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
 
 [tool.black]
 line-length = 88
