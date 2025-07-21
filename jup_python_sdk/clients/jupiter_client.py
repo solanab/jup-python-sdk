@@ -1,35 +1,23 @@
 import base64
 import json
 import os
-from typing import Dict, Optional
+from typing import Any, Dict, Optional
 
 import base58
-import httpx
+from curl_cffi import AsyncSession, requests
 from solders.solders import Keypair, VersionedTransaction
 
 
-class JupiterClient:
+class _CoreJupiterClient:
     """
-    Base client for interacting with Jupiter API.
-    Also acts as a parent class for all sub-clients.
+    Core non-network-dependent logic for Jupiter clients.
+    Handles private key loading and transaction signing.
     """
 
-    def __init__(
-        self,
-        api_key: Optional[str],
-        private_key_env_var: str,
-        timeout: int,
-    ):
+    def __init__(self, api_key: Optional[str], private_key_env_var: str):
         self.api_key = api_key
-        self.base_url = (
-            "https://api.jup.ag" if api_key else "https://lite-api.jup.ag"
-        )
+        self.base_url = "https://api.jup.ag" if api_key else "https://lite-api.jup.ag"
         self.private_key_env_var = private_key_env_var
-        self.timeout = timeout
-        self.client = httpx.Client(timeout=self.timeout)
-
-    def close(self) -> None:
-        self.client.close()
 
     def _get_headers(self) -> Dict[str, str]:
         headers = {
@@ -63,25 +51,22 @@ class JupiterClient:
                 else:
                     raise ValueError
             except Exception as e:
-                raise ValueError(
-                    f"Invalid uint8-array private key format: {e}"
-                )
+                raise ValueError(f"Invalid uint8-array private key format: {e}")
         try:
             return base58.b58decode(pk_raw)
         except Exception as e:
             raise ValueError(f"Invalid base58 private key format: {e}")
 
-    def _get_public_key(self) -> str:
+    def get_public_key(self) -> str:
         wallet = Keypair.from_bytes(self._load_private_key_bytes())
         return str(wallet.pubkey())
 
-    def _sign_base64_transaction(
-        self, transaction_base64: str
-    ) -> VersionedTransaction:
+    async def get_public_key_async(self) -> str:
+        return self.get_public_key()
+
+    def _sign_base64_transaction(self, transaction_base64: str) -> VersionedTransaction:
         transaction_bytes = base64.b64decode(transaction_base64)
-        versioned_transaction = VersionedTransaction.from_bytes(
-            transaction_bytes
-        )
+        versioned_transaction = VersionedTransaction.from_bytes(transaction_bytes)
         return self._sign_versioned_transaction(versioned_transaction)
 
     def _sign_versioned_transaction(
@@ -102,3 +87,49 @@ class JupiterClient:
         self, versioned_transaction: VersionedTransaction
     ) -> str:
         return base64.b64encode(bytes(versioned_transaction)).decode("utf-8")
+
+
+class JupiterClient(_CoreJupiterClient):
+    """
+    The synchronous client for interacting with the Jupiter API.
+    Powered by curl_cffi.
+    """
+
+    def __init__(
+        self,
+        api_key: Optional[str] = None,
+        private_key_env_var: str = "PRIVATE_KEY",
+        client_kwargs: Optional[Dict[str, Any]] = None,
+    ):
+        super().__init__(api_key, private_key_env_var)
+        kwargs = client_kwargs or {}
+        kwargs.setdefault("impersonate", "chrome110")
+        self.client = requests.Session(**kwargs)
+
+    def close(self) -> None:
+        self.client.close()
+
+
+class AsyncJupiterClient(_CoreJupiterClient):
+    """
+    The asynchronous client for interacting with the Jupiter API.
+    Powered by curl_cffi.
+    """
+
+    def __init__(
+        self,
+        api_key: Optional[str] = None,
+        private_key_env_var: str = "PRIVATE_KEY",
+        client_kwargs: Optional[Dict[str, Any]] = None,
+    ):
+        super().__init__(api_key, private_key_env_var)
+        kwargs = client_kwargs or {}
+        kwargs.setdefault("impersonate", "chrome110")
+        self.client = AsyncSession(**kwargs)
+
+    async def close(self) -> None:
+        await self.client.close()
+
+    # Override get_public_key for async context consistency
+    async def get_public_key(self) -> str:  # type: ignore[override]
+        return super().get_public_key()

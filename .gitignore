@@ -41,6 +41,8 @@ dist/
 coverage.xml
 *.cover
 htmlcov/
+.pytest_cache/
+pytest_cache/
 
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints/
@@ -62,3 +64,14 @@ docs/_build/
 # Ignore environment variables (if using dotenv)
 .env
 .env.*
+
+# UV specific
+uv.lock
+.python-version
+
+# Temporary test files
+test_*.py
+generate_*.py
+
+# Flake8 config
+.flake8

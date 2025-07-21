@@ -11,8 +11,6 @@ class UltraExecuteRequest(BaseModel):
     def to_dict(self) -> Dict[str, Any]:
         params = self.model_dump(exclude_none=True)
 
-        camel_case_params = {
-            to_camel(key): value for key, value in params.items()
-        }
+        camel_case_params = {to_camel(key): value for key, value in params.items()}
 
         return camel_case_params

@@ -1,8 +1,8 @@
 # **Jup Python SDK**
 
-A Python SDK designed for seamless interaction with the Jupiter Ultra API, the simplest and safest way to trade on Solana.<br>
+A high-performance, async-first Python SDK for seamless interaction with the Jupiter Ultra API, powered by `curl_cffi` for maximum speed and flexibility.<br>
 With Ultra API, you don't need to manage or connect to any RPC endpoints, or deal with complex configurations.<br>
-Everything from getting quotes to transaction execution happens directly through the API.<br>
+Everything from getting quotes to transaction execution happens directly through a powerful API.<br>
 
 Or as we like to say around here:<br>
 **"RPCs are for NPCs."**
@@ -15,45 +15,52 @@ To install the SDK in your project, run:
 ```sh
 pip install jup-python-sdk
 ```
-## **Quick Start**
 
-Below is a simple example that shows how to fetch and execute an Ultra order with the Jup Python SDK:
+## **Quick Start (Async)**
+
+Below is a simple asynchronous example to fetch and execute an Ultra order.
+
 ```python
+import asyncio
 from dotenv import load_dotenv
-from jup_python_sdk.clients.ultra_api_client import UltraApiClient
+from jup_python_sdk.clients.ultra_api_client import AsyncUltraApiClient
 from jup_python_sdk.models.ultra_api.ultra_order_request_model import UltraOrderRequest
 
-load_dotenv()
-client = UltraApiClient()
+async def main():
+   load_dotenv()
+   # Note: For async client, methods are awaited.
+   client = AsyncUltraApiClient()
 
-order_request = UltraOrderRequest(
-   input_mint="So11111111111111111111111111111111111111112",  # WSOL
-   output_mint="EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",  # USDC
-   amount=10000000,  # 0.01 WSOL
-   taker=client._get_public_key(),
-)
+   order_request = UltraOrderRequest(
+      input_mint="So11111111111111111111111111111111111111112",  # WSOL
+      output_mint="EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",  # USDC
+      amount=10000000,  # 0.01 WSOL
+      taker=await client.get_public_key(),
+   )
 
-try:
-   client_response = client.order_and_execute(order_request)
-   signature = str(client_response["signature"])
+   try:
+      client_response = await client.order_and_execute(order_request)
+      signature = str(client_response["signature"])
 
-   print("Order and Execute API Response:")
-   print(f"  - Status: {client_response.get('status')}")
-   if client_response.get("status") == "Failed":
-      print(f"  - Code: {client_response.get('code')}")
-      print(f"  - Error: {client_response.get('error')}")
+      print("Order and Execute API Response:")
+      print(f"  - Status: {client_response.get('status')}")
+      if client_response.get("status") == "Failed":
+         print(f"  - Code: {client_response.get('code')}")
+         print(f"  - Error: {client_response.get('error')}")
 
-   print(f"  - Transaction Signature: {signature}")
-   print(f"  - View on Solscan: https://solscan.io/tx/{signature}")
+      print(f"  - Transaction Signature: {signature}")
+      print(f"  - View on Solscan: https://solscan.io/tx/{signature}")
 
-except Exception as e:
-   print("Error occurred while processing the swap:", str(e))
-finally:
-   client.close()
+   except Exception as e:
+      print("Error occurred while processing the swap:", str(e))
+   finally:
+      await client.close()
+
+if __name__ == "__main__":
+   asyncio.run(main())
 ```
 
-You can find additional code examples and advanced usage scenarios in the [examples](./examples) folder.
-These examples cover every Ultra API endpoint and should help you get up and running quickly.
+> **Note**: A synchronous client (`UltraApiClient`) is also available. See the [examples](./examples) folder for both sync and async usage.
 
 ## **Setup Instructions**
 
@@ -61,12 +68,12 @@ Before using the SDK, please ensure you have completed the following steps:
 
 1. **Environment Variables**:  
    Set up your required environment variables.  
-   Example (base58 string or uint8 array supported):
+   The SDK supports both base58 string and uint8 array formats for your private key.
    ```sh
    # Base58 format
    export PRIVATE_KEY=your_base58_private_key_here
 
-   # OR as a uint8 array (advanced)
+   # OR as a uint8 array
    export PRIVATE_KEY=[10,229,131,132,213,96,74,22,...]
    ```
    
@@ -74,25 +81,42 @@ Before using the SDK, please ensure you have completed the following steps:
 
 2. **Optional Configuration**:  
    Depending on your credentials and setup, you have a couple of options for initializing the `UltraApiClient`:
+   - **API Key**: Use an API key from [the Jupiter Portal](https://portal.jup.ag/onboard) for enhanced access. This will use the `https://api.jup.ag/` endpoint.
+   - **Custom Private Key Env Var**: Specify a different environment variable name for your private key.
 
-   - **Custom Private Key Environment Variable:**  
-     By default, the SDK looks for your private key in an environment variable named `PRIVATE_KEY`.  
-     If you use a different environment variable name, you can specify it explicitly:
-     ```python
-     from jup_python_sdk.clients.ultra_api_client import UltraApiClient
+    ```python
+    from jup_python_sdk.clients.ultra_api_client import AsyncUltraApiClient
 
-     client = UltraApiClient(private_key_env_var="YOUR_CUSTOM_ENV_VAR")
-     ```
-     This tells the SDK to read your private key from the environment variable you want.
+    client = AsyncUltraApiClient(
+        api_key="YOUR_API_KEY",
+        private_key_env_var="YOUR_CUSTOM_ENV_VAR"
+    )
+    ```
 
-   - **Using an API Key for Enhanced Access:**  
-     If you have an API key from [the Jupiter Portal](https://portal.jup.ag/onboard), you can pass it directly when creating the client:
-     ```python
-     from jup_python_sdk.clients.ultra_api_client import UltraApiClient
+## **Advanced Configuration (Proxies, Custom DNS)**
 
-     client = UltraApiClient(api_key="YOUR_API_KEY")
-     ```
-     When you supply an API key, the library will call the `https://api.jup.ag/` API rather than the default `https://lite-api.jup.ag/` API.
+The SDK is built on `curl_cffi`, allowing you to pass any valid `curl_cffi` client parameter during initialization for advanced network control.
+
+### Using a SOCKS5 Proxy
+
+```python
+from jup_python_sdk.clients.ultra_api_client import AsyncUltraApiClient
+
+proxies = {"httpss": "socks5://user:pass@host:port"}
+client = AsyncUltraApiClient(client_kwargs={"proxies": proxies, "impersonate": "chrome110"})
+```
+
+### Using Custom DNS Resolution
+
+This is useful for bypassing local DNS caches or using a specialized DNS resolver.
+
+```python
+from jup_python_sdk.clients.ultra_api_client import AsyncUltraApiClient
+
+# Tell the client to resolve jup.ag to a specific IP address
+resolve_string = "jup.ag:443:1.2.3.4"
+client = AsyncUltraApiClient(client_kwargs={"resolve": [resolve_string]})
+```
 
 ## **Disclaimer**
 
