@@ -10,7 +10,7 @@ class DexEnum(str, Enum):
     DAOS_FUN = "Daos.fun"
     LIFINITY_V2 = "Lifinity V2"
     STABBLE_STABLE_SWAP = "Stabble Stable Swap"
-    TOKEN_MILL = "Token Mill"
+    TOKEN_MILL = "Token Mill"  # noqa: S105
     METEORA = "Meteora"
     OASIS = "Oasis"
     ALDRIN = "Aldrin"
@@ -18,7 +18,7 @@ class DexEnum(str, Enum):
     PERPS = "Perps"
     SOLFI = "SolFi"
     DEXLAB = "DexLab"
-    TOKEN_SWAP = "Token Swap"
+    TOKEN_SWAP = "Token Swap"  # noqa: S105
     ZEROFI = "ZeroFi"
     CROPPER = "Cropper"
     OBRIC_V2 = "Obric V2"

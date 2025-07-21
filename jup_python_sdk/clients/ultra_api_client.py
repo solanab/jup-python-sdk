@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any
 
 from jup_python_sdk.clients.jupiter_client import AsyncJupiterClient, JupiterClient
 from jup_python_sdk.models.ultra_api.ultra_execute_request_model import (
@@ -14,7 +14,7 @@ class UltraApiClient(JupiterClient):
     A synchronous client for interacting with the Jupiter Ultra API.
     """
 
-    def order(self, request: UltraOrderRequest) -> Dict[str, Any]:
+    def order(self, request: UltraOrderRequest) -> dict[str, Any]:
         """
         Get an order from the Jupiter Ultra API (synchronous).
 
@@ -32,7 +32,7 @@ class UltraApiClient(JupiterClient):
 
         return response.json()  # type: ignore[no-any-return]  # type: ignore
 
-    def execute(self, request: UltraExecuteRequest) -> Dict[str, Any]:
+    def execute(self, request: UltraExecuteRequest) -> dict[str, Any]:
         """
         Execute the order with the Jupiter Ultra API (synchronous).
 
@@ -50,7 +50,7 @@ class UltraApiClient(JupiterClient):
 
         return response.json()  # type: ignore[no-any-return]  # type: ignore
 
-    def order_and_execute(self, request: UltraOrderRequest) -> Dict[str, Any]:
+    def order_and_execute(self, request: UltraOrderRequest) -> dict[str, Any]:
         """
         Get and execute an order in a single call (synchronous).
 
@@ -76,7 +76,7 @@ class UltraApiClient(JupiterClient):
 
         return self.execute(execute_request)
 
-    def balances(self, address: str) -> Dict[str, Any]:
+    def balances(self, address: str) -> dict[str, Any]:
         """
         Get token balances of an account (synchronous).
 
@@ -92,7 +92,7 @@ class UltraApiClient(JupiterClient):
 
         return response.json()  # type: ignore[no-any-return]  # type: ignore
 
-    def shield(self, mints: list[str]) -> Dict[str, Any]:
+    def shield(self, mints: list[str]) -> dict[str, Any]:
         """
         Get token info and warnings for specific mints (synchronous).
 
@@ -117,7 +117,7 @@ class AsyncUltraApiClient(AsyncJupiterClient):
     An asynchronous client for interacting with the Jupiter Ultra API.
     """
 
-    async def order(self, request: UltraOrderRequest) -> Dict[str, Any]:
+    async def order(self, request: UltraOrderRequest) -> dict[str, Any]:
         """
         Get an order from the Jupiter Ultra API (asynchronous).
 
@@ -137,7 +137,7 @@ class AsyncUltraApiClient(AsyncJupiterClient):
 
         return response.json()  # type: ignore[no-any-return]
 
-    async def execute(self, request: UltraExecuteRequest) -> Dict[str, Any]:
+    async def execute(self, request: UltraExecuteRequest) -> dict[str, Any]:
         """
         Execute the order with the Jupiter Ultra API (asynchronous).
 
@@ -157,7 +157,7 @@ class AsyncUltraApiClient(AsyncJupiterClient):
 
         return response.json()  # type: ignore[no-any-return]
 
-    async def order_and_execute(self, request: UltraOrderRequest) -> Dict[str, Any]:
+    async def order_and_execute(self, request: UltraOrderRequest) -> dict[str, Any]:
         """
         Get and execute an order in a single call (asynchronous).
 
@@ -183,7 +183,7 @@ class AsyncUltraApiClient(AsyncJupiterClient):
 
         return await self.execute(execute_request)
 
-    async def balances(self, address: str) -> Dict[str, Any]:
+    async def balances(self, address: str) -> dict[str, Any]:
         """
         Get token balances of an account (asynchronous).
 
@@ -199,7 +199,7 @@ class AsyncUltraApiClient(AsyncJupiterClient):
 
         return response.json()  # type: ignore[no-any-return]
 
-    async def shield(self, mints: list[str]) -> Dict[str, Any]:
+    async def shield(self, mints: list[str]) -> dict[str, Any]:
         """
         Get token info and warnings for specific mints (asynchronous).
         """

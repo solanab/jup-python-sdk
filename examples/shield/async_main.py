@@ -1,5 +1,7 @@
 import asyncio
+
 from jup_python_sdk.clients.ultra_api_client import AsyncUltraApiClient
+
 
 async def main():
     client = AsyncUltraApiClient()
@@ -25,6 +27,7 @@ async def main():
         print("Error occurred while fetching shield information:", str(e))
     finally:
         await client.close()
+
 
 if __name__ == "__main__":
     asyncio.run(main())

@@ -1,4 +1,5 @@
 from dotenv import load_dotenv
+
 from jup_python_sdk.clients.ultra_api_client import UltraApiClient
 from jup_python_sdk.models.ultra_api.ultra_order_request_model import UltraOrderRequest
 
@@ -9,7 +10,7 @@ order_request = UltraOrderRequest(
     input_mint="So11111111111111111111111111111111111111112",  # WSOL
     output_mint="EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",  # USDC
     amount=10000000,  # 0.01 WSOL
-    taker=client._get_public_key()
+    taker=client._get_public_key(),
 )
 
 try:

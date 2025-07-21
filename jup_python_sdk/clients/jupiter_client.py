@@ -1,7 +1,7 @@
 import base64
 import json
 import os
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import base58
 from curl_cffi import AsyncSession, requests
@@ -19,7 +19,7 @@ class _CoreJupiterClient:
         self.base_url = "https://api.jup.ag" if api_key else "https://lite-api.jup.ag"
         self.private_key_env_var = private_key_env_var
 
-    def _get_headers(self) -> Dict[str, str]:
+    def _get_headers(self) -> dict[str, str]:
         headers = {
             "Accept": "application/json",
         }
@@ -27,7 +27,7 @@ class _CoreJupiterClient:
             headers["x-api-key"] = self.api_key
         return headers
 
-    def _post_headers(self) -> Dict[str, str]:
+    def _post_headers(self) -> dict[str, str]:
         headers = {
             "Accept": "application/json",
             "Content-Type": "application/json",
@@ -51,11 +51,11 @@ class _CoreJupiterClient:
                 else:
                     raise ValueError
             except Exception as e:
-                raise ValueError(f"Invalid uint8-array private key format: {e}")
+                raise ValueError(f"Invalid uint8-array private key format: {e}") from e
         try:
             return base58.b58decode(pk_raw)
         except Exception as e:
-            raise ValueError(f"Invalid base58 private key format: {e}")
+            raise ValueError(f"Invalid base58 private key format: {e}") from e
 
     def get_public_key(self) -> str:
         wallet = Keypair.from_bytes(self._load_private_key_bytes())
@@ -80,7 +80,8 @@ class _CoreJupiterClient:
         signers[wallet_index] = wallet  # type: ignore
 
         return VersionedTransaction(
-            versioned_transaction.message, signers  # type: ignore
+            versioned_transaction.message,
+            signers,  # type: ignore
         )
 
     def _serialize_versioned_transaction(
@@ -99,7 +100,7 @@ class JupiterClient(_CoreJupiterClient):
         self,
         api_key: Optional[str] = None,
         private_key_env_var: str = "PRIVATE_KEY",
-        client_kwargs: Optional[Dict[str, Any]] = None,
+        client_kwargs: Optional[dict[str, Any]] = None,
     ):
         super().__init__(api_key, private_key_env_var)
         kwargs = client_kwargs or {}
@@ -120,7 +121,7 @@ class AsyncJupiterClient(_CoreJupiterClient):
         self,
         api_key: Optional[str] = None,
         private_key_env_var: str = "PRIVATE_KEY",
-        client_kwargs: Optional[Dict[str, Any]] = None,
+        client_kwargs: Optional[dict[str, Any]] = None,
     ):
         super().__init__(api_key, private_key_env_var)
         kwargs = client_kwargs or {}

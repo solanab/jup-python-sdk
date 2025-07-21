@@ -1,6 +1,9 @@
 import asyncio
+
 from dotenv import load_dotenv
+
 from jup_python_sdk.clients.ultra_api_client import AsyncUltraApiClient
+
 
 async def main():
     load_dotenv()
@@ -23,6 +26,7 @@ async def main():
         print("Error occurred while fetching balances:", str(e))
     finally:
         await client.close()
+
 
 if __name__ == "__main__":
     asyncio.run(main())

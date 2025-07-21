@@ -1,4 +1,5 @@
 from dotenv import load_dotenv
+
 from jup_python_sdk.clients.ultra_api_client import UltraApiClient
 
 load_dotenv()
