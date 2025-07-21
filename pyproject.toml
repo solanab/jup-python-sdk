@@ -1,39 +1,50 @@
-[tool.poetry]
-name = "jup-python-sdk"
-version = "1.1.0"
-description = "Python SDK for Jupiter Exchange APIs."
-authors = ["Fiji <charismoutafidis@gmail.com>"]
-license = "MIT"
+[project]
+name = "jup-python-sdk-solanab"
+version = "2.0.0"
+description = "High-performance sync/async Python SDK for Jupiter Exchange APIs, powered by curl_cffi."
+authors = [
+    { name = "Fiji", email = "charismoutafidis@gmail.com" },
+    { name = "solanab", email = "whiredj@gmail.com" },
+]
+license = { text = "MIT" }
 readme = "README.md"
-homepage = "https://github.com/Jupiter-DevRel/jup-python-sdk"
-repository = "https://github.com/Jupiter-DevRel/jup-python-sdk"
+requires-python = ">=3.9"
 keywords = ["solana", "jupiter", "sdk"]
-packages = [{include = "jup_python_sdk"}]
 classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
 ]
+dependencies = [
+    "pydantic>=2.11.3",
+    "curl-cffi>=0.12",
+    "solders>=0.26.0",
+    "base58>=2.1.1",
+    "solana>=0.36.6",
+]
 
-[tool.poetry.dependencies]
-python = "^3.9"
-httpx = "^0.28.1"
-pydantic = "^2.11.3"
-solders = "^0.26.0"
-base58 = "^2.1.1"
-solana = "^0.36.6"
+[project.urls]
+homepage = "https://github.com/solanab/jup-python-sdk"
+repository = "https://github.com/solanab/jup-python-sdk"
 
-[tool.poetry.group.dev.dependencies]
-pytest = "^8.3.4"
-responses = "^0.25.6"
-flake8 = "^7.1.1"
-black = "^25.1.0"
-isort = "^6.0.0"
-mypy = "^1.15.0"
-pre-commit = "^4.1.0"
-pytest-cov = "^6.1.1"
-bandit = "^1.7"
-safety = "^2.3"
-python-dotenv = "^1.1.0"
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.4",
+    "responses>=0.25.6",
+    "flake8>=7.1.1",
+    "black>=25.1.0",
+    "isort>=6.0.0",
+    "mypy>=1.15.0",
+    "pre-commit>=4.1.0",
+    "pytest-cov>=6.1.1",
+    "bandit>=1.7",
+    "pytest-asyncio>=0.23.7",
+    "safety>=2.3",
+    "python-dotenv>=1.1.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.black]
 line-length = 88
@@ -51,7 +62,24 @@ strict = true
 disallow_untyped_defs = true
 disable_error_code = ["annotation-unchecked"]
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[tool.uv]
+dev-dependencies = [
+    "pytest>=8.3.4",
+    "responses>=0.25.6",
+    "ruff>=0.8.0",
+    "mypy>=1.15.0",
+    "pre-commit>=4.1.0",
+    "pytest-cov>=6.1.1",
+    "bandit>=1.7",
+    "pytest-asyncio>=0.23.7",
+    "safety>=2.3",
+    "python-dotenv>=1.1.0",
+]
 
+[tool.ruff]
+line-length = 88
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "B", "I", "S", "UP"]
+ignore = ["S101"]
