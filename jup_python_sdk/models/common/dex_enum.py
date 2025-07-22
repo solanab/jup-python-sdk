@@ -3,6 +3,12 @@ from urllib.parse import quote
 
 
 class DexEnum(str, Enum):
+    """
+    Enumeration of supported DEXes (Decentralized Exchanges) on Jupiter.
+    
+    Each value represents a different liquidity source that Jupiter can route through.
+    The string values are URL-encoded when used in API requests.
+    """
     WOOFI = "Woofi"
     PUMP_FUN = "Pump.fun"
     WHIRLPOOL = "Whirlpool"
@@ -54,4 +60,10 @@ class DexEnum(str, Enum):
     GUACSWAP = "Guacswap"
 
     def __str__(self) -> str:
+        """
+        Return URL-encoded string representation of the DEX name.
+
+        Returns:
+            URL-encoded DEX name suitable for API requests.
+        """
         return quote(self.value)
