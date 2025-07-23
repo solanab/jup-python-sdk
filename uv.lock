@@ -1051,7 +1051,7 @@ wheels = [
 
 [[package]]
 name = "solanab-jup-python-sdk"
-version = "2.0.3"
+version = "2.0.6"
 source = { editable = "." }
 dependencies = [
     { name = "base58" },

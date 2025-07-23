@@ -21,8 +21,8 @@ class _CoreJupiterClient:
         Args:
             api_key: Optional API key for enhanced access to Jupiter API.
                 If provided, uses https://api.jup.ag endpoint.
-            private_key_env_var: Name of environment variable containing the private key.
-                Defaults to 'PRIVATE_KEY'.
+            private_key_env_var: Name of environment variable containing the
+                private key. Defaults to 'PRIVATE_KEY'.
         """
         self.api_key = api_key
         self.base_url = "https://api.jup.ag" if api_key else "https://lite-api.jup.ag"
@@ -167,20 +167,22 @@ class JupiterClient(_CoreJupiterClient):
 
         Args:
             api_key: Optional API key for enhanced access to Jupiter API.
-            private_key_env_var: Name of environment variable containing the private key.
+            private_key_env_var: Name of environment variable containing the
+                private key.
             client_kwargs: Optional kwargs to pass to curl_cffi Session.
                 Common options include 'proxies', 'timeout', 'impersonate'.
         """
         super().__init__(api_key, private_key_env_var)
         kwargs = client_kwargs or {}
-        # Use realworld random browser impersonation based on market share if not specified
+        # Use realworld random browser impersonation based on market share
+        # if not specified
         kwargs.setdefault("impersonate", "realworld")
         self.client = requests.Session(**kwargs)
 
     def close(self) -> None:
         """
         Close the underlying HTTP session.
-        
+
         Always call this method when done to properly cleanup resources.
         """
         self.client.close()
@@ -203,20 +205,22 @@ class AsyncJupiterClient(_CoreJupiterClient):
 
         Args:
             api_key: Optional API key for enhanced access to Jupiter API.
-            private_key_env_var: Name of environment variable containing the private key.
+            private_key_env_var: Name of environment variable containing the
+                private key.
             client_kwargs: Optional kwargs to pass to curl_cffi AsyncSession.
                 Common options include 'proxies', 'timeout', 'impersonate'.
         """
         super().__init__(api_key, private_key_env_var)
         kwargs = client_kwargs or {}
-        # Use realworld random browser impersonation based on market share if not specified
+        # Use realworld random browser impersonation based on market share
+        # if not specified
         kwargs.setdefault("impersonate", "realworld")
         self.client = AsyncSession(**kwargs)
 
     async def close(self) -> None:
         """
         Close the underlying HTTP session.
-        
+
         Always call this method when done to properly cleanup resources.
         """
         await self.client.close()

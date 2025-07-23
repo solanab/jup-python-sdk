@@ -12,6 +12,7 @@ class UltraExecuteRequest(BaseModel):
         signed_transaction: Base64-encoded signed transaction string.
         request_id: The request ID returned from the order endpoint.
     """
+
     signed_transaction: str
     request_id: str
 

@@ -17,9 +17,9 @@ def test_ultra_shield() -> None:
 
     try:
         shield_response = client.shield(mints=[wsol_mint, usdc_mint])
-        assert (
-            "warnings" in shield_response
-        ), "Response does not contain 'warnings' key."
+        assert "warnings" in shield_response, (
+            "Response does not contain 'warnings' key."
+        )
 
         print()
         print("Shield API Response:")
@@ -52,9 +52,9 @@ async def test_async_ultra_shield() -> None:
 
     try:
         shield_response = await client.shield(mints=[wsol_mint, usdc_mint])
-        assert (
-            "warnings" in shield_response
-        ), "Response does not contain 'warnings' key."
+        assert "warnings" in shield_response, (
+            "Response does not contain 'warnings' key."
+        )
 
         print()
         print("Async Shield API Response:")

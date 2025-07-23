@@ -24,9 +24,7 @@ def test_ultra_get_order_and_execute() -> None:
     try:
         client_response = client.order_and_execute(order_request)
         signature = str(client_response["signature"])
-        assert (
-            signature is not None
-        ), "Transaction signature is missing or invalid."
+        assert signature is not None, "Transaction signature is missing or invalid."
 
         print()
         print("Order and Execute API Response:")
@@ -57,9 +55,7 @@ async def test_async_ultra_get_order_and_execute() -> None:
     try:
         client_response = await client.order_and_execute(order_request)
         signature = str(client_response["signature"])
-        assert (
-            signature is not None
-        ), "Transaction signature is missing or invalid."
+        assert signature is not None, "Transaction signature is missing or invalid."
 
         print()
         print("Async Order and Execute API Response:")

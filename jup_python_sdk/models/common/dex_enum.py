@@ -5,10 +5,11 @@ from urllib.parse import quote
 class DexEnum(str, Enum):
     """
     Enumeration of supported DEXes (Decentralized Exchanges) on Jupiter.
-    
+
     Each value represents a different liquidity source that Jupiter can route through.
     The string values are URL-encoded when used in API requests.
     """
+
     WOOFI = "Woofi"
     PUMP_FUN = "Pump.fun"
     WHIRLPOOL = "Whirlpool"

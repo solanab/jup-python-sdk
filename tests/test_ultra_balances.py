@@ -15,9 +15,7 @@ def test_ultra_get_balances() -> None:
 
     try:
         balances_response = client.balances(str(address))
-        assert (
-            "SOL" in balances_response
-        ), "Response does not contain 'SOL' key."
+        assert "SOL" in balances_response, "Response does not contain 'SOL' key."
 
         print()
         print("Balances API Response:")
@@ -46,9 +44,7 @@ async def test_async_ultra_get_balances() -> None:
 
     try:
         balances_response = await client.balances(str(address))
-        assert (
-            "SOL" in balances_response
-        ), "Response does not contain 'SOL' key."
+        assert "SOL" in balances_response, "Response does not contain 'SOL' key."
 
         print()
         print("Async Balances API Response:")

@@ -16,6 +16,7 @@ class UltraOrderRequest(BaseModel):
         referral_account: Optional referral account address for fee sharing.
         referral_fee: Optional referral fee in basis points (1 bp = 0.01%).
     """
+
     input_mint: str
     output_mint: str
     amount: int

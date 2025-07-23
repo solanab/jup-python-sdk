@@ -1,6 +1,6 @@
 [project]
 name = "solanab-jup-python-sdk"
-version = "2.0.3"
+version = "2.0.6"
 description = "High-performance sync/async Python SDK for Jupiter Exchange APIs, powered by curl_cffi."
 authors = [
     { name = "Fiji", email = "charismoutafidis@gmail.com" },
