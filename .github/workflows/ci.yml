@@ -38,3 +38,8 @@ jobs:
         run: |
           uv run ruff check .
           uv run ruff format --check .
+
+      - name: Security Scanning
+        run: |
+          uv run bandit -r jup_python_sdk -ll
+          uv run pip-audit

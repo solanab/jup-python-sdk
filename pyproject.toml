@@ -28,7 +28,6 @@ dependencies = [
     "curl-cffi>=0.12",
     "solders>=0.26.0",
     "base58>=2.1.1",
-    "solana>=0.36.6",
 ]
 
 [project.urls]
@@ -38,16 +37,13 @@ repository = "https://github.com/solanab/jup-python-sdk"
 [project.optional-dependencies]
 dev = [
     "pytest>=8.3.4",
-    "responses>=0.25.6",
-    "flake8>=7.1.1",
-    "black>=25.1.0",
-    "isort>=6.0.0",
+    "ruff>=0.8.0",
     "mypy>=1.15.0",
     "pre-commit>=4.1.0",
     "pytest-cov>=6.1.1",
     "bandit>=1.7",
     "pytest-asyncio>=0.23.7",
-    "safety>=2.3",
+    "pip-audit>=2.8.0",
     "python-dotenv>=1.1.0",
 ]
 
@@ -59,40 +55,26 @@ build-backend = "hatchling.build"
 packages = ["jup_python_sdk"]
 
 
-[tool.black]
-line-length = 88
-target-version = ['py39', 'py310']
-
-[tool.isort]
-profile = "black"
-
-[tool.flake8]
-max-line-length = 88
-exclude = ["__pycache__", "build/", "dist/"]
 
 [tool.mypy]
 strict = true
 disallow_untyped_defs = true
 disable_error_code = ["annotation-unchecked"]
 
-[tool.uv]
-dev-dependencies = [
-    "pytest>=8.3.4",
-    "responses>=0.25.6",
-    "ruff>=0.8.0",
-    "mypy>=1.15.0",
-    "pre-commit>=4.1.0",
-    "pytest-cov>=6.1.1",
-    "bandit>=1.7",
-    "pytest-asyncio>=0.23.7",
-    "safety>=2.3",
-    "python-dotenv>=1.1.0",
-]
 
 [tool.ruff]
 line-length = 88
 target-version = "py39"
+# Support all Python versions from 3.9 to 3.13
 
 [tool.ruff.lint]
 select = ["E", "F", "B", "I", "S", "UP"]
 ignore = ["S101"]
+
+[tool.ruff.format]
+# Use double quotes for strings
+quote-style = "double"
+# Indent with spaces
+indent-style = "space"
+# Unix-style line endings
+line-ending = "lf"

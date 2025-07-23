@@ -1,5 +1,13 @@
-black jup_python_sdk tests --line-length 79
-isort jup_python_sdk tests
-flake8 jup_python_sdk tests
+#!/bin/bash
+
+# Run ruff linter with auto-fix
+ruff check jup_python_sdk tests --fix
+
+# Run ruff formatter
+ruff format jup_python_sdk tests
+
+# Run mypy for type checking
 mypy jup_python_sdk tests
+
+# Run tests
 pytest
